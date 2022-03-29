@@ -2,7 +2,6 @@ package com.company.service;
 import com.company.models.Contact;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Service {
 //    private HashMap<String,Contact> phonebook;
