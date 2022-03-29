@@ -7,6 +7,10 @@ public class Contact {
     public ArrayList<PhoneNumber> numbers ;
     public ArrayList<Email> emails ;
 
+    public Contact(String name) {
+        this.name = name;
+    }
+
     public enum PhoneNumber {
         MOBILE, HOME, WORK;
 
