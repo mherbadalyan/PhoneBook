@@ -48,7 +48,7 @@ public class Menu {
 
         String inputFirstMenu = scanner.nextLine();
 
-        while (!Validator.isValidFirstMenu(inputFirstMenu)) {
+        while (!Validator.validFirstMenu(inputFirstMenu)) {
             System.out.println("Invalid choice. Please enter again");
             inputFirstMenu = scanner.nextLine();
         }
@@ -63,7 +63,7 @@ public class Menu {
                 "\nS.Save contact and Exit" +
                 "\nQ.Exit without save.");
         String operation = scanner.nextLine();
-        while (!Validator.isValidFirstMenu(operation)) {
+        while (!Validator.createMenuValidator(operation)) {
             System.out.println("Invalid choice. Please enter valid choice.");
             operation = scanner.nextLine();
         }

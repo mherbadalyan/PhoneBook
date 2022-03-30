@@ -86,7 +86,7 @@ public class Controller {
     private String createEmail() {
         System.out.println("Please enter mail.");
         String email = scanner.nextLine();
-        while (!Validator.validEmailType(email)) {
+        while (!Validator.validEmail(email)) {
             System.out.println("Invalid email. Please enter valid email.");
             email = scanner.nextLine();
         }
@@ -100,7 +100,7 @@ public class Controller {
                 "\n3.Other" +
                 "\nQ.Exit from email type creating menu");
         String emailType = scanner.nextLine();
-        while (!Validator.isValidFirstMenu(emailType)) {
+        while (!Validator.validFirstMenu(emailType)) {
             System.out.println("Invalid email type. Please select valid.");
             emailType = scanner.nextLine();
         }
@@ -110,7 +110,7 @@ public class Controller {
     private String createNumber() {
         System.out.println("Enter phone number,that contains only numbers, or on first position '+'. Q for exit");
         String phoneNumber = scanner.nextLine();
-        while (!Validator.validNumber(phoneNumber)) {
+        while (!Validator.validPhoneNumber(phoneNumber)) {
             System.out.println("Number is invalid. Please enter valid number.");
             phoneNumber = scanner.nextLine();
         }
@@ -124,7 +124,7 @@ public class Controller {
                 "\n3.Work" +
                 "\nQ.Exit");
         String numberType = scanner.nextLine();
-        while (!Validator.isValidFirstMenu(numberType)) {
+        while (!Validator.validFirstMenu(numberType)) {
             System.out.println("Invalid choice. Enter valid choice.");
             numberType = scanner.nextLine();
         }

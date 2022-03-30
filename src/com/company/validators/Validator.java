@@ -1,7 +1,7 @@
 package com.company.validators;
 
 public class Validator {
-    public static boolean isValidFirstMenu(String name){
+    public static boolean validFirstMenu(String name){
         return true;
     }
     public static boolean validName(String name){
@@ -12,11 +12,15 @@ public class Validator {
         return true;
     }
 
-    public static boolean validNumber(String phoneNumber) {
+    public static boolean validPhoneNumber(String phoneNumber) {
         return true;
     }
 
-    public static boolean validEmailType(String emailType) {
+    public static boolean createMenuValidator(String operation) {
+        return true;
+    }
+
+    public static boolean validEmail(String email) {
         return true;
     }
 }
