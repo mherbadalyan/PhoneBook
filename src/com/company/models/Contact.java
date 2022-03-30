@@ -1,5 +1,6 @@
 package com.company.models;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Contact {
     private String name;
@@ -9,6 +10,8 @@ public class Contact {
 
     public Contact(String name) {
         this.name = name;
+        this.numbers = new ArrayList<>();
+        this.emails = new ArrayList<>();
     }
 
     public enum PhoneNumber {
@@ -24,11 +27,15 @@ public class Contact {
             this.phoneNumber = phoneNumber;
         }
 
-
+        @Override
+        public String toString() {
+            return name() + " " + phoneNumber;
+        }
     }
 
     public enum Email {
         GMAIL, ICLOUD, OTHER;
+
         private String email;
 
         public String getEmail() {
@@ -37,6 +44,11 @@ public class Contact {
 
         public void setEmail(String email) {
             this.email = email;
+        }
+
+        @Override
+        public String toString() {
+            return name() + " " + email;
         }
     }
 
@@ -70,5 +82,39 @@ public class Contact {
 
     public void setEmails(ArrayList<Email> emails) {
         this.emails = emails;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(name, contact.name) && Objects.equals(company, contact.company) && Objects.equals(numbers, contact.numbers) && Objects.equals(emails, contact.emails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, company, numbers, emails);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder contact = new StringBuilder();
+        if (company != null) {
+            contact.append(" Company( ");
+            contact.append(company);
+            contact.append(" )");
+        }
+        if (numbers.size() != 0) {
+            contact.append(" Numbers(");
+            contact.append(numbers);
+            contact.append(" )");
+        }
+        if (emails.size() != 0) {
+            contact.append(" Emails(");
+            contact.append(emails);
+            contact.append(" ) ");
+        }
+        return String.valueOf(contact);
     }
 }
