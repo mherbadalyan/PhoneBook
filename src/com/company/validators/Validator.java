@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public class Validator {
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("[0-9]+");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$");
+    private static final Pattern UPDATE_MENU_PATTERN = Pattern.compile("[1-6Q]");
 
     public static boolean validName(String name) {
 
@@ -35,14 +36,14 @@ public class Validator {
     }
 
     public static boolean updateMenuValidator(String choice) {
-        return true;
+        return choice.matches(UPDATE_MENU_PATTERN.pattern());
     }
 
     public static boolean validSearchChoice(String searchChoice) {
-        return true;
+        return searchChoice.equals("1") || searchChoice.equals("Q");
     }
 
     public static boolean validExistContactMenu(String choice) {
-        return true;
+        return validSearchChoice(choice) || choice.equals("2");
     }
 }
