@@ -1,18 +1,12 @@
 package com.company.service;
-
 import com.company.models.Contact;
 
 import java.util.ArrayList;
 
 public class Service {
-//    private HashMap<String,Contact> phonebook;
 
-//    public Contact create(){
-//        return null;
-//    }
-
-    public void read() {
-
+    public void read(Contact contact) {
+        System.out.println(contact);
     }
 
     public Contact search() {
@@ -23,17 +17,16 @@ public class Service {
         return null;
     }
 
-    public void call() {
-    }
 
-    public void delete() {
-    }
 
-    public void update() {
-    }
-
-    public void printContactList() {
-
+    public void deletePhoneNumber(Contact contact, String number) {
+        int size = contact.numbers.size();
+        for (int i = 0; i < size; i++) {
+            if (contact.numbers.get(i).getPhoneNumber().equals(number)){
+                contact.numbers.remove(i);
+                break;
+            }
+        }
     }
 
     public void addNumber(String choice, String inputNumber, Contact contact) {
@@ -80,5 +73,15 @@ public class Service {
 
     public void addCompany(String companyName, Contact contact) {
         contact.setCompany(companyName);
+    }
+
+    public void deleteEmail(Contact contact, String inputEmail) {
+        int size = contact.emails.size();
+        for (int i = 0; i < size; i++) {
+            if (contact.emails.get(i).getEmail().equals(inputEmail)){
+                contact.emails.remove(i);
+                break;
+            }
+        }
     }
 }

@@ -2,11 +2,10 @@ package com.company.phoneBook;
 
 import com.company.models.Contact;
 
-import java.util.Map;
 import java.util.TreeMap;
 
 public class PhoneBookDB {
-    static TreeMap<String, Contact> phoneBook = new TreeMap<>();
+    public static TreeMap<String, Contact> phoneBook = new TreeMap<>();
 
    public static void addContact(Contact contact){
        phoneBook.put(contact.getName(),contact);

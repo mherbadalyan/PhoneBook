@@ -101,7 +101,7 @@ public class Contact {
     public String toString() {
         StringBuilder contact = new StringBuilder();
         if (company != null) {
-            contact.append(" Company( ");
+            contact.append("Company( ");
             contact.append(company);
             contact.append(" )");
         }

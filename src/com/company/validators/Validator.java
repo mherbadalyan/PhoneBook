@@ -33,4 +33,16 @@ public class Validator {
     public static boolean validEmail(String email) {
         return email.matches(EMAIL_PATTERN.pattern());
     }
+
+    public static boolean updateMenuValidator(String choice) {
+        return true;
+    }
+
+    public static boolean validSearchChoice(String searchChoice) {
+        return true;
+    }
+
+    public static boolean validExistContactMenu(String choice) {
+        return true;
+    }
 }
