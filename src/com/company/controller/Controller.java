@@ -1,7 +1,8 @@
 package com.company.controller;
-
 import com.company.menu.Menu;
 import com.company.models.Contact;
+import com.company.models.Email;
+import com.company.models.PhoneNumber;
 import com.company.service.Service;
 import com.company.validators.Validator;
 
@@ -12,15 +13,9 @@ import static com.company.phoneBook.PhoneBookDB.phoneBook;
 
 public class Controller {
     Scanner scanner = new Scanner(System.in);
-    private Service service;
-    private String operation;
-    private String emailType;
+    private final Service service;
     private String inputEmail;
-    private String numberType;
     private String inputPhoneNumber;
-    private String companyName;
-    private String searchChoice;
-    private String choice;
 
     public Controller(Service service) {
         this.service = service;
@@ -41,7 +36,7 @@ public class Controller {
                     "\n2.Enter another name" +
                     "\nQ.Exit ");
 
-            choice = scanner.nextLine();
+            String choice = scanner.nextLine();
             while (!Validator.validExistContactMenu(choice)) {
                 System.out.println("Invalid choice. Please enter valid choice.");
                 choice = scanner.nextLine();
@@ -57,7 +52,7 @@ public class Controller {
         }
 
         Contact contact = new Contact(name);
-        operation = Menu.contactFillingMenu();
+        String operation = Menu.contactFillingMenu();
 
         while (!operation.equals("Q") && !operation.equals("S")) {
             switch (operation) {
@@ -81,41 +76,50 @@ public class Controller {
 
     public void update(Contact contact) {
         String choice = Menu.updateMenu();
+        Contact temp = new Contact(contact);
 
         while (true) {
             if (choice.equals("Q")) {
                 return;
             }
+            if (choice.equals("S")) {
+                 phoneBook.put(contact.getName(),temp);
+                 return;
+            }
             switch (choice) {
                 case "1":
-                    addNumber(contact);
+                    addNumber(temp);
+                    System.out.println("Number successfully added");
                     break;
                 case "2":
-                    inputPhoneNumber = choosePhoneNumberForDelete(contact);
+                    inputPhoneNumber = choosePhoneNumberForDelete(temp);
                     if (inputPhoneNumber == null) {
                         System.out.println("Contact have not entered number.");
                         break;
                     }
-                    service.deletePhoneNumber(contact, inputPhoneNumber);
+                    service.deletePhoneNumber(temp, inputPhoneNumber);
                     System.out.println("Phone number successfully deleted");
                     break;
                 case "3":
-                    addEmail(contact);
+                    addEmail(temp);
+                    System.out.println("Email successfully added");
                     break;
                 case "4":
-                    inputEmail = chooseEmailForDelete(contact);
+                    inputEmail = chooseEmailForDelete(temp);
                     if (inputEmail == null) {
                         System.out.println("Contact have not entered email");
                         break;
                     }
-                    service.deleteEmail(contact, inputEmail);
+                    service.deleteEmail(temp, inputEmail);
                     System.out.println("Email successfully deleted");
                     break;
                 case "5":
-                    addCompany(contact);
+                    addCompany(temp);
+                    System.out.println("Company successfully changed");
                     break;
                 case "6":
-                    deletingCompany(contact);
+                    deletingCompany(temp);
+                    System.out.println("Number successfully deleted");
                     break;
             }
             choice = Menu.updateMenu();
@@ -155,7 +159,7 @@ public class Controller {
             deletingPhoneNumber = scanner.nextLine();
         }
 
-        for (Contact.PhoneNumber phoneNumber : contact.numbers) {
+        for (PhoneNumber phoneNumber : contact.numbers) {
             if (phoneNumber.getPhoneNumber().equals(deletingPhoneNumber)) {
                 return deletingPhoneNumber;
             }
@@ -164,7 +168,7 @@ public class Controller {
     }
 
     public void addNumber(Contact contact) {
-        numberType = chooseNumberType();
+        String numberType = chooseNumberType();
         if (numberType.equals("Q")) {
             return;
         }
@@ -176,7 +180,7 @@ public class Controller {
     }
 
     public void addEmail(Contact contact) {
-        emailType = chooseEmailType();
+        String emailType = chooseEmailType();
         if (emailType.equals("Q")) {
             return;
         }
@@ -220,7 +224,7 @@ public class Controller {
             deletingEmail = scanner.nextLine();
         }
 
-        for (Contact.Email email : contact.emails) {
+        for (Email email : contact.emails) {
             if (email.getEmail().equals(deletingEmail)) {
                 return deletingEmail;
             }
@@ -229,7 +233,7 @@ public class Controller {
     }
 
     public void addCompany(Contact contact) {
-        companyName = createCompanyName();
+        String companyName = createCompanyName();
         if (companyName.equals("Q")) {
             return;
         }
@@ -257,7 +261,7 @@ public class Controller {
             System.out.println("There is no contact with this name." +
                     "\n1.Search again" +
                     "\nQ.Exit");
-            searchChoice = scanner.nextLine();
+            String searchChoice = scanner.nextLine();
             while (!Validator.validSearchChoice(searchChoice)) {
                 System.out.println("Invalid choice. Enter valid choice.");
                 searchChoice = scanner.nextLine();

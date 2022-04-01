@@ -1,16 +1,14 @@
 package com.company.menu;
-
 import com.company.controller.Controller;
 import com.company.models.Contact;
 import com.company.phoneBook.PhoneBookDB;
-import com.company.service.Service;
 import com.company.validators.Validator;
 
 import java.util.Scanner;
 
 public class Menu {
     static Scanner scanner = new Scanner(System.in);
-    private Controller controller;
+    private final Controller controller;
 
     public Menu(Controller controller) {
         this.controller = controller;
@@ -79,10 +77,9 @@ public class Menu {
     }
 
     public  void contactMenu(String contactName) {
-        Contact contact = PhoneBookDB.phoneBook.get(contactName);
-        System.out.println(contact);
         String operation ;
         while (true) {
+            PhoneBookDB.printContact(contactName);
             System.out.println("Please enter which of these operations do you want to do." +
                     "\n1.Call." +
                     "\n2.Update." +
@@ -101,10 +98,10 @@ public class Menu {
                     controller.call();
                     break;
                 case "2":
-                    controller.update(contact);
+                    controller.update(PhoneBookDB.phoneBook.get(contactName));
                     break;
                 case "3":
-                    PhoneBookDB.deleteContact(contact);
+                    PhoneBookDB.deleteContact(PhoneBookDB.phoneBook.get(contactName));
                     return;
             }
         }
@@ -119,7 +116,8 @@ public class Menu {
                 "\n4.delete email" +
                 "\n5.Change or add company" +
                 "\n6.Delete company" +
-                "\nQ.Exit");
+                "\nS.Save and exit" +
+                "\nQ.Exit without save");
         choice = scanner.nextLine().toUpperCase();
         while (!Validator.updateMenuValidator(choice)) {
             System.out.println("Invalid choice. Please enter again.");

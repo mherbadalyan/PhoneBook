@@ -14,42 +14,31 @@ public class Contact {
         this.emails = new ArrayList<>();
     }
 
-    public enum PhoneNumber {
-        MOBILE, HOME, WORK;
-
-        private String phoneNumber;
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public void setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
-        }
-
-        @Override
-        public String toString() {
-            return name() + " " + phoneNumber;
-        }
+    public Contact(Contact contact) {
+        this.name = contact.name;
+        this.company = contact.company;
+        this.numbers = new ArrayList<>();
+        this.emails = new ArrayList<>();
+        this.numbers.addAll(creatingCloneOfListNumbers(contact));
+        this.emails.addAll(creatingCloneOfEmails(contact));
     }
 
-    public enum Email {
-        GMAIL, ICLOUD, OTHER;
-
-        private String email;
-
-        public String getEmail() {
-            return email;
+    private ArrayList<Email> creatingCloneOfEmails(Contact contact) {
+        ArrayList<Email> emailsClone = new ArrayList<>();
+        int size = contact.emails.size();
+        for (int i = 0; i < size; i++) {
+            emailsClone.add(new Email(contact.emails.get(i)));
         }
+        return emailsClone;
+    }
 
-        public void setEmail(String email) {
-            this.email = email;
+    private ArrayList<PhoneNumber> creatingCloneOfListNumbers(Contact contact) {
+        ArrayList<PhoneNumber> numbersClone = new ArrayList<>();
+        int size = contact.numbers.size();
+        for (int i = 0; i < size; i++) {
+            numbersClone.add(new PhoneNumber(contact.numbers.get(i)));
         }
-
-        @Override
-        public String toString() {
-            return name() + " " + email;
-        }
+        return numbersClone;
     }
 
     public String getName() {
@@ -99,7 +88,7 @@ public class Contact {
 
     @Override
     public String toString() {
-        StringBuilder contact = new StringBuilder();
+        StringBuilder contact = new StringBuilder(name + " ");
         if (company != null) {
             contact.append("Company( ");
             contact.append(company);

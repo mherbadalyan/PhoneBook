@@ -1,23 +1,7 @@
 package com.company.service;
-import com.company.models.Contact;
-
-import java.util.ArrayList;
+import com.company.models.*;
 
 public class Service {
-
-    public void read(Contact contact) {
-        System.out.println(contact);
-    }
-
-    public Contact search() {
-        return null;
-    }
-
-    public ArrayList<Contact.Email> mail() {
-        return null;
-    }
-
-
 
     public void deletePhoneNumber(Contact contact, String number) {
         int size = contact.numbers.size();
@@ -30,19 +14,16 @@ public class Service {
     }
 
     public void addNumber(String choice, String inputNumber, Contact contact) {
-        Contact.PhoneNumber number;
+        PhoneNumber number;
         switch (choice) {
             case "1":
-                number = Contact.PhoneNumber.MOBILE;
-                number.setPhoneNumber(inputNumber);
+                number = new PhoneNumber(PhoneNumberType.MOBILE,inputNumber);
                 break;
             case "2":
-                number = Contact.PhoneNumber.HOME;
-                number.setPhoneNumber(inputNumber);
+                number = new PhoneNumber(PhoneNumberType.HOME,inputNumber);
                 break;
             case "3":
-                number = Contact.PhoneNumber.WORK;
-                number.setPhoneNumber(inputNumber);
+                number = new PhoneNumber(PhoneNumberType.WORK,inputNumber);
                 break;
             default:
                 return;
@@ -51,19 +32,16 @@ public class Service {
     }
 
     public void addEmail(String choice, String inputEmail, Contact contact) {
-        Contact.Email email;
+        Email email;
         switch (choice) {
             case "1":
-                email = Contact.Email.GMAIL;
-                email.setEmail(inputEmail);
+                email = new Email(EmailType.GMAIL,inputEmail);
                 break;
             case "2":
-                email = Contact.Email.ICLOUD;
-                email.setEmail(inputEmail);
+                email = new Email(EmailType.ICLOUD,inputEmail);
                 break;
             case "3":
-                email = Contact.Email.OTHER;
-                email.setEmail(inputEmail);
+                email = new Email(EmailType.OTHER,inputEmail);
                 break;
             default:
                 return;

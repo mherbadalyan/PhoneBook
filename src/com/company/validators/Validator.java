@@ -1,23 +1,17 @@
 package com.company.validators;
-
 import java.util.regex.Pattern;
 
 public class Validator {
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("[0-9]+");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$");
-    private static final Pattern UPDATE_MENU_PATTERN = Pattern.compile("[1-6Q]");
+    private static final Pattern UPDATE_MENU_PATTERN = Pattern.compile("[1-6QS]");
 
     public static boolean validName(String name) {
-
         return name != null;
     }
 
     public static boolean validFirstMenu(String choose) {
         return choose.equals("1") || choose.equals("2") || choose.equals("3") || choose.equals("Q");
-    }
-
-    public static boolean validSecondMenu(String choose) {
-        return validFirstMenu(choose) || choose.equals("4");
     }
 
     public static boolean createMenuValidator(String choose) {
