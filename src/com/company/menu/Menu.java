@@ -54,11 +54,11 @@ public class Menu {
                 "\n3.Search contact." +
                 "\nQ.For exit");
 
-        String inputFirstMenu = scanner.nextLine();
+        String inputFirstMenu = scanner.nextLine().toUpperCase();
 
         while (!Validator.validFirstMenu(inputFirstMenu)) {
             System.out.println("Invalid choice. Please enter again");
-            inputFirstMenu = scanner.nextLine();
+            inputFirstMenu = scanner.nextLine().toUpperCase();
         }
         return inputFirstMenu;
     }
@@ -70,10 +70,10 @@ public class Menu {
                 "\n3.Add company." +
                 "\nS.Save contact and Exit" +
                 "\nQ.Exit without save.");
-        String operation = scanner.nextLine();
+        String operation = scanner.nextLine().toUpperCase();
         while (!Validator.createMenuValidator(operation)) {
             System.out.println("Invalid choice. Please enter valid choice.");
-            operation = scanner.nextLine();
+            operation = scanner.nextLine().toUpperCase();
         }
         return operation;
     }
@@ -88,10 +88,10 @@ public class Menu {
                     "\n2.Update." +
                     "\n3.Delete contact." +
                     "\nQ.Exit ");
-            operation = scanner.nextLine();
+            operation = scanner.nextLine().toUpperCase();
             while (!Validator.validFirstMenu(operation)) {
                 System.out.println("Invalid choice. Please enter valid choice.");
-                operation = scanner.nextLine();
+                operation = scanner.nextLine().toUpperCase();
             }
             if (operation.equals("Q")) {
                 return;
@@ -120,10 +120,10 @@ public class Menu {
                 "\n5.Change or add company" +
                 "\n6.Delete company" +
                 "\nQ.Exit");
-        choice = scanner.nextLine();
+        choice = scanner.nextLine().toUpperCase();
         while (!Validator.updateMenuValidator(choice)) {
             System.out.println("Invalid choice. Please enter again.");
-            choice = scanner.nextLine();
+            choice = scanner.nextLine().toUpperCase();
         }
         return choice;
     }
