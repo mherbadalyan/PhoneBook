@@ -4,11 +4,11 @@ public  class PhoneNumber {
     private PhoneNumberType phoneNumberType;
     private String phoneNumber;
 
-
     public PhoneNumber(PhoneNumberType phoneNumberType, String phoneNumber) {
         this.phoneNumberType = phoneNumberType;
         this.phoneNumber = phoneNumber;
     }
+
     public PhoneNumber(PhoneNumber phoneNumber) {
         this.phoneNumberType = phoneNumber.phoneNumberType;
         this.phoneNumber = phoneNumber.phoneNumber;

@@ -2,7 +2,11 @@ package com.company.service;
 import com.company.models.*;
 
 public class Service {
-
+    /**
+     * deleting given phone number from given contact
+     * @param contact
+     * @param number
+     */
     public void deletePhoneNumber(Contact contact, String number) {
         int size = contact.numbers.size();
         for (int i = 0; i < size; i++) {
@@ -13,6 +17,12 @@ public class Service {
         }
     }
 
+    /**
+     * adding number to given contact
+     * @param choice - phoneNumber type
+     * @param inputNumber - phoneNumber
+     * @param contact
+     */
     public void addNumber(String choice, String inputNumber, Contact contact) {
         PhoneNumber number;
         switch (choice) {
@@ -31,6 +41,12 @@ public class Service {
         contact.numbers.add(number);
     }
 
+    /**
+     * adding email to given contact
+     * @param choice - emailType
+     * @param inputEmail - email
+     * @param contact
+     */
     public void addEmail(String choice, String inputEmail, Contact contact) {
         Email email;
         switch (choice) {
@@ -49,10 +65,20 @@ public class Service {
         contact.emails.add(email);
     }
 
+    /**
+     * adding given company to given contact
+     * @param companyName
+     * @param contact
+     */
     public void addCompany(String companyName, Contact contact) {
         contact.setCompany(companyName);
     }
 
+    /**
+     * deleting given email from given contact
+     * @param contact
+     * @param inputEmail
+     */
     public void deleteEmail(Contact contact, String inputEmail) {
         int size = contact.emails.size();
         for (int i = 0; i < size; i++) {

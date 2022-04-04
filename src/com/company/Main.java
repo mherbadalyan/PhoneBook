@@ -1,11 +1,7 @@
 package com.company;
-
 import com.company.controller.Controller;
 import com.company.menu.Menu;
 import com.company.service.Service;
-
-import java.util.Arrays;
-import java.util.TreeMap;
 
 public class Main {
 

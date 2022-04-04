@@ -5,9 +5,7 @@ import com.company.models.Email;
 import com.company.models.PhoneNumber;
 import com.company.service.Service;
 import com.company.validators.Validator;
-
 import java.util.Scanner;
-
 import static com.company.phoneBook.PhoneBookDB.phoneBook;
 
 
@@ -21,6 +19,9 @@ public class Controller {
         this.service = service;
     }
 
+    /**
+     * creating contact and returning it
+     */
     public Contact createContact() {
         System.out.println("Enter name of contact.");
         String name = scanner.nextLine();
@@ -36,10 +37,10 @@ public class Controller {
                     "\n2.Enter another name" +
                     "\nQ.Exit ");
 
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().toUpperCase();
             while (!Validator.validExistContactMenu(choice)) {
                 System.out.println("Invalid choice. Please enter valid choice.");
-                choice = scanner.nextLine();
+                choice = scanner.nextLine().toUpperCase();
             }
             switch (choice) {
                 case "1" :
@@ -74,6 +75,10 @@ public class Controller {
         return contact;
     }
 
+    /**
+     * updating given contact
+     *
+     */
     public void update(Contact contact) {
         String choice = Menu.updateMenu();
         Contact temp = new Contact(contact);
@@ -126,6 +131,10 @@ public class Controller {
         }
     }
 
+    /**
+     * creating Number for contact
+     *
+     */
     private String createNumber() {
         System.out.println("Enter phone number,that contains only numbers, or on first position '+'. Q for exit");
         String phoneNumber = scanner.nextLine();
@@ -136,6 +145,9 @@ public class Controller {
         return phoneNumber;
     }
 
+    /**
+     * choosing Number type for contact and returning choice
+     */
     private String chooseNumberType() {
         System.out.println("Enter mobile type." +
                 "\n1.Mobile" +
@@ -150,6 +162,12 @@ public class Controller {
         return numberType;
     }
 
+    /**
+     * receiving contact number ,
+     * if contact have that number returning number,
+     * else returning null
+     *
+     */
     private String choosePhoneNumberForDelete(Contact contact) {
         System.out.println("Please enter phone number that you want to delete from contact");
         String deletingPhoneNumber = scanner.nextLine();
@@ -167,6 +185,9 @@ public class Controller {
         return null;
     }
 
+    /**
+     * adding number to given contact
+     */
     public void addNumber(Contact contact) {
         String numberType = chooseNumberType();
         if (numberType.equals("Q")) {
@@ -179,6 +200,9 @@ public class Controller {
         service.addNumber(numberType, inputPhoneNumber, contact);
     }
 
+    /**
+     * adding email to given contact
+     */
     public void addEmail(Contact contact) {
         String emailType = chooseEmailType();
         if (emailType.equals("Q")) {
@@ -191,6 +215,9 @@ public class Controller {
         service.addEmail(emailType, inputEmail, contact);
     }
 
+    /**
+     * creating email and returning it in string
+     */
     private String createEmail() {
         System.out.println("Please enter mail.");
         String email = scanner.nextLine();
@@ -201,6 +228,9 @@ public class Controller {
         return email;
     }
 
+    /**
+     * choosing email type and returning choice in string
+     */
     private String chooseEmailType() {
         System.out.println("Enter email type." +
                 "\n1.Gmail" +
@@ -215,6 +245,11 @@ public class Controller {
         return emailType;
     }
 
+    /**
+     * receiving email for delete,
+     * if given contact contains that email returning it ,
+     * else returning null
+     */
     private String chooseEmailForDelete(Contact contact) {
         System.out.println("Please enter phone number that you want to delete from contact");
         String deletingEmail = scanner.nextLine();
@@ -232,6 +267,9 @@ public class Controller {
         return null;
     }
 
+    /**
+     * adding company to given contact
+     */
     public void addCompany(Contact contact) {
         String companyName = createCompanyName();
         if (companyName.equals("Q")) {
@@ -240,6 +278,10 @@ public class Controller {
         service.addCompany(companyName, contact);
     }
 
+    /**
+     * creating company name for contact
+     * @return company name
+     */
     private String createCompanyName() {
         System.out.println("Enter company name.");
         String companyName = scanner.nextLine();
@@ -250,10 +292,16 @@ public class Controller {
         return companyName;
     }
 
+    /**
+     * deleting company name from given contact
+     */
     private void deletingCompany(Contact contact) {
         contact.setCompany(null);
     }
 
+    /**
+     * searching contact by name in contact list
+     */
     public String searchByName() {
         System.out.println("Input name of contact");
         String name = scanner.nextLine();
@@ -261,16 +309,19 @@ public class Controller {
             System.out.println("There is no contact with this name." +
                     "\n1.Search again" +
                     "\nQ.Exit");
-            String searchChoice = scanner.nextLine();
+            String searchChoice = scanner.nextLine().toUpperCase();
             while (!Validator.validSearchChoice(searchChoice)) {
                 System.out.println("Invalid choice. Enter valid choice.");
-                searchChoice = scanner.nextLine();
+                searchChoice = scanner.nextLine().toUpperCase();
             }
             return searchChoice;
         }
         return name;
     }
 
+    /**
+     * calling contact
+     */
     public void call() {
         System.out.println("Number not available");
     }

@@ -3,7 +3,6 @@ import com.company.controller.Controller;
 import com.company.models.Contact;
 import com.company.phoneBook.PhoneBookDB;
 import com.company.validators.Validator;
-
 import java.util.Scanner;
 
 public class Menu {
@@ -14,6 +13,14 @@ public class Menu {
         this.controller = controller;
     }
 
+    /**
+     * start method of app Phonebook
+     * in this menu user doing choice between this actions
+     *  1.Create contact.
+     *  2.Read contact list." +
+     *  3.Search contact." +
+     *  exit app
+     */
     public void start() {
         System.out.println("Welcome to PhoneBook app.");
         String inputFirstMenu = firstMenu();
@@ -45,6 +52,10 @@ public class Menu {
         }
     }
 
+    /**
+     * printing first menu and returning choice from that actions
+     *
+     */
     private String firstMenu() {
         System.out.println("Please enter operation. " +
                 "\n1.Create contact." +
@@ -61,6 +72,10 @@ public class Menu {
         return inputFirstMenu;
     }
 
+    /**
+     * printing menu for filling contact information and returning choice from that actions
+     *
+     */
     public static String contactFillingMenu() {
         System.out.println("Please enter which of these fields do you wont to fill." +
                 "\n1.Add email." +
@@ -68,7 +83,9 @@ public class Menu {
                 "\n3.Add company." +
                 "\nS.Save contact and Exit" +
                 "\nQ.Exit without save.");
+
         String operation = scanner.nextLine().toUpperCase();
+
         while (!Validator.createMenuValidator(operation)) {
             System.out.println("Invalid choice. Please enter valid choice.");
             operation = scanner.nextLine().toUpperCase();
@@ -76,8 +93,13 @@ public class Menu {
         return operation;
     }
 
-    public  void contactMenu(String contactName) {
-        String operation ;
+    /**
+     * printing menu where user choosing action that he want to do when find contact
+     *
+     */
+    public void contactMenu(String contactName) {
+        String operation;
+
         while (true) {
             PhoneBookDB.printContact(contactName);
             System.out.println("Please enter which of these operations do you want to do." +
@@ -85,14 +107,18 @@ public class Menu {
                     "\n2.Update." +
                     "\n3.Delete contact." +
                     "\nQ.Exit ");
+
             operation = scanner.nextLine().toUpperCase();
+
             while (!Validator.validFirstMenu(operation)) {
                 System.out.println("Invalid choice. Please enter valid choice.");
                 operation = scanner.nextLine().toUpperCase();
             }
+
             if (operation.equals("Q")) {
                 return;
             }
+
             switch (operation) {
                 case "1":
                     controller.call();
@@ -107,8 +133,13 @@ public class Menu {
         }
     }
 
+    /**
+     * printing contact update menu and returning choice of that actions
+     *
+     */
     public static String updateMenu() {
         String choice;
+
         System.out.println("Please enter operation." +
                 "\n1.Add number" +
                 "\n2.Delete number" +
@@ -118,7 +149,9 @@ public class Menu {
                 "\n6.Delete company" +
                 "\nS.Save and exit" +
                 "\nQ.Exit without save");
+
         choice = scanner.nextLine().toUpperCase();
+
         while (!Validator.updateMenuValidator(choice)) {
             System.out.println("Invalid choice. Please enter again.");
             choice = scanner.nextLine().toUpperCase();
