@@ -1,8 +1,12 @@
 package com.company.models;
-public class Email {
+
+import java.io.Serializable;
+
+public class Email implements Serializable {
 
     private EmailType emailType;
     private String email;
+    private static final long serialVersionUID = 1212315643L;
 
     public Email(EmailType emailType, String email) {
         this.emailType = emailType;

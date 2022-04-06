@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 public class Validator {
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("[0-9]+");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$");
+    private static final Pattern GMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+(@gmail.com)+$");
+    private static final Pattern ICLOUD_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+(@icloud.com)+$");
     private static final Pattern UPDATE_MENU_PATTERN = Pattern.compile("[1-6QS]");
 
     public static boolean validName(String name) {
@@ -19,14 +21,20 @@ public class Validator {
     }
 
     public static boolean validPhoneNumber(String number) {
-        if (number.charAt(0) == '+') {
+        if (number.length() != 0 && number.charAt(0) == '+') {
             number = number.substring(1);
         }
-        return number.matches(PHONE_NUMBER_PATTERN.pattern());
+        return number.equalsIgnoreCase("Q") || number.matches(PHONE_NUMBER_PATTERN.pattern());
     }
 
     public static boolean validEmail(String email) {
-        return email.matches(EMAIL_PATTERN.pattern());
+        return email.equalsIgnoreCase("Q") || email.matches(EMAIL_PATTERN.pattern());
+    }
+    public static boolean validGmail(String email) {
+        return email.equalsIgnoreCase("Q") || email.matches(GMAIL_PATTERN.pattern());
+    }
+    public static boolean validIcloud(String email) {
+        return email.equalsIgnoreCase("Q") || email.matches(ICLOUD_PATTERN.pattern());
     }
 
     public static boolean updateMenuValidator(String choice) {

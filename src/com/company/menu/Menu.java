@@ -1,8 +1,12 @@
 package com.company.menu;
+
 import com.company.controller.Controller;
 import com.company.models.Contact;
-import com.company.phoneBook.PhoneBookDB;
+import com.company.service.ContactService;
+import com.company.service.PhoneBookService;
 import com.company.validators.Validator;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
@@ -16,12 +20,12 @@ public class Menu {
     /**
      * start method of app Phonebook
      * in this menu user doing choice between this actions
-     *  1.Create contact.
-     *  2.Read contact list." +
-     *  3.Search contact." +
-     *  exit app
+     * 1.Create contact.
+     * 2.Read contact list." +
+     * 3.Search contact." +
+     * exit app
      */
-    public void start() {
+    public void start() throws IOException {
         System.out.println("Welcome to PhoneBook app.");
         String inputFirstMenu = firstMenu();
 
@@ -33,10 +37,10 @@ public class Menu {
                     if (contact == null) {
                         break;
                     }
-                    PhoneBookDB.addContact(contact);
+                    ContactService.addContact(contact);
                     break;
                 case "2":
-                    PhoneBookDB.printPhoneBook();
+                    ContactService.printPhoneBook();
                     break;
                 case "3":
                     String contactName = "1";
@@ -50,11 +54,11 @@ public class Menu {
             }
             inputFirstMenu = firstMenu();
         }
+        PhoneBookService.savePhoneBookToFile();
     }
 
     /**
      * printing first menu and returning choice from that actions
-     *
      */
     private String firstMenu() {
         System.out.println("Please enter operation. " +
@@ -74,7 +78,6 @@ public class Menu {
 
     /**
      * printing menu for filling contact information and returning choice from that actions
-     *
      */
     public static String contactFillingMenu() {
         System.out.println("Please enter which of these fields do you wont to fill." +
@@ -95,13 +98,12 @@ public class Menu {
 
     /**
      * printing menu where user choosing action that he want to do when find contact
-     *
      */
     public void contactMenu(String contactName) {
         String operation;
 
         while (true) {
-            PhoneBookDB.printContact(contactName);
+            ContactService.printContact(contactName);
             System.out.println("Please enter which of these operations do you want to do." +
                     "\n1.Call." +
                     "\n2.Update." +
@@ -124,10 +126,10 @@ public class Menu {
                     controller.call();
                     break;
                 case "2":
-                    controller.update(PhoneBookDB.phoneBook.get(contactName));
+                    controller.update(PhoneBookService.phoneBook.get(contactName));
                     break;
                 case "3":
-                    PhoneBookDB.deleteContact(PhoneBookDB.phoneBook.get(contactName));
+                    ContactService.deleteContact(PhoneBookService.phoneBook.get(contactName));
                     return;
             }
         }
@@ -135,7 +137,6 @@ public class Menu {
 
     /**
      * printing contact update menu and returning choice of that actions
-     *
      */
     public static String updateMenu() {
         String choice;

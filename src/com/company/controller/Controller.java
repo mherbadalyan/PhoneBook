@@ -1,22 +1,26 @@
 package com.company.controller;
+
 import com.company.menu.Menu;
 import com.company.models.Contact;
 import com.company.models.Email;
 import com.company.models.PhoneNumber;
-import com.company.service.Service;
+import com.company.service.*;
 import com.company.validators.Validator;
+
 import java.util.Scanner;
-import static com.company.phoneBook.PhoneBookDB.phoneBook;
+import java.util.TreeMap;
 
 
 public class Controller {
     Scanner scanner = new Scanner(System.in);
-    private final Service service;
+    private final PhoneNumberService phoneNumberService;
+    private final EmailService emailService;
     private String inputEmail;
     private String inputPhoneNumber;
 
-    public Controller(Service service) {
-        this.service = service;
+    public Controller(PhoneNumberService service, EmailService emailService, PhoneBookService phoneBookService) {
+        this.phoneNumberService = service;
+        this.emailService = emailService;
     }
 
     /**
@@ -31,7 +35,7 @@ public class Controller {
             name = scanner.nextLine();
         }
 
-        if (phoneBook.containsKey(name)) {
+        if (PhoneBookService.phoneBook.containsKey(name)) {
             System.out.println("You already have contact with this name. Choose operation" +
                     "\n1.Update exist contact" +
                     "\n2.Enter another name" +
@@ -43,10 +47,10 @@ public class Controller {
                 choice = scanner.nextLine().toUpperCase();
             }
             switch (choice) {
-                case "1" :
-                    update(phoneBook.get(name));
+                case "1":
+                    update(PhoneBookService.phoneBook.get(name));
                     break;
-                case "2" :
+                case "2":
                     return createContact();
             }
             return null;
@@ -55,7 +59,7 @@ public class Controller {
         Contact contact = new Contact(name);
         String operation = Menu.contactFillingMenu();
 
-        while (!operation.equals("Q") && !operation.equals("S")) {
+        while (!operation.equalsIgnoreCase("Q") && !operation.equalsIgnoreCase("S")) {
             switch (operation) {
                 case "1":
                     addEmail(contact);
@@ -69,7 +73,7 @@ public class Controller {
             }
             operation = Menu.contactFillingMenu();
         }
-        if (operation.equals("Q")) {
+        if (operation.equalsIgnoreCase("Q")) {
             return null;
         }
         return contact;
@@ -77,7 +81,6 @@ public class Controller {
 
     /**
      * updating given contact
-     *
      */
     public void update(Contact contact) {
         String choice = Menu.updateMenu();
@@ -88,8 +91,8 @@ public class Controller {
                 return;
             }
             if (choice.equals("S")) {
-                 phoneBook.put(contact.getName(),temp);
-                 return;
+                PhoneBookService.phoneBook.put(contact.getName(), temp);
+                return;
             }
             switch (choice) {
                 case "1":
@@ -102,7 +105,7 @@ public class Controller {
                         System.out.println("Contact have not entered number.");
                         break;
                     }
-                    service.deletePhoneNumber(temp, inputPhoneNumber);
+                    phoneNumberService.deletePhoneNumber(temp, inputPhoneNumber);
                     System.out.println("Phone number successfully deleted");
                     break;
                 case "3":
@@ -115,7 +118,7 @@ public class Controller {
                         System.out.println("Contact have not entered email");
                         break;
                     }
-                    service.deleteEmail(temp, inputEmail);
+                    emailService.deleteEmail(temp, inputEmail);
                     System.out.println("Email successfully deleted");
                     break;
                 case "5":
@@ -133,7 +136,6 @@ public class Controller {
 
     /**
      * creating Number for contact
-     *
      */
     private String createNumber() {
         System.out.println("Enter phone number,that contains only numbers, or on first position '+'. Q for exit");
@@ -154,10 +156,10 @@ public class Controller {
                 "\n2.Home" +
                 "\n3.Work" +
                 "\nQ.Exit");
-        String numberType = scanner.nextLine();
+        String numberType = scanner.nextLine().toUpperCase();
         while (!Validator.validFirstMenu(numberType)) {
             System.out.println("Invalid choice. Enter valid choice.");
-            numberType = scanner.nextLine();
+            numberType = scanner.nextLine().toUpperCase();
         }
         return numberType;
     }
@@ -166,7 +168,6 @@ public class Controller {
      * receiving contact number ,
      * if contact have that number returning number,
      * else returning null
-     *
      */
     private String choosePhoneNumberForDelete(Contact contact) {
         System.out.println("Please enter phone number that you want to delete from contact");
@@ -190,14 +191,14 @@ public class Controller {
      */
     public void addNumber(Contact contact) {
         String numberType = chooseNumberType();
-        if (numberType.equals("Q")) {
+        if (numberType.equalsIgnoreCase("Q")) {
             return;
         }
         inputPhoneNumber = createNumber();
-        if (inputPhoneNumber.equals("Q")) {
+        if (inputPhoneNumber.equalsIgnoreCase("Q")) {
             return;
         }
-        service.addNumber(numberType, inputPhoneNumber, contact);
+        phoneNumberService.addPhoneNumber(numberType, inputPhoneNumber, contact);
     }
 
     /**
@@ -205,25 +206,41 @@ public class Controller {
      */
     public void addEmail(Contact contact) {
         String emailType = chooseEmailType();
-        if (emailType.equals("Q")) {
+        if (emailType.equalsIgnoreCase("Q")) {
             return;
         }
-        inputEmail = createEmail();
-        if (inputEmail.equals("Q")) {
-           return;
+        inputEmail = createEmail(emailType);
+        if (inputEmail.equalsIgnoreCase("Q")) {
+            return;
         }
-        service.addEmail(emailType, inputEmail, contact);
+        emailService.addEmail(emailType, inputEmail, contact);
     }
 
     /**
      * creating email and returning it in string
      */
-    private String createEmail() {
-        System.out.println("Please enter mail.");
+    private String createEmail(String emailType) {
+        System.out.println("Please enter mail or q for exit");
         String email = scanner.nextLine();
-        while (!Validator.validEmail(email)) {
-            System.out.println("Invalid email. Please enter valid email.");
-            email = scanner.nextLine();
+
+        switch (emailType) {
+            case  "1" :
+                while (!Validator.validGmail(email)) {
+                    System.out.println("Invalid email. Please enter valid email or Q for exit.");
+                    email = scanner.nextLine();
+                }
+                break;
+            case "2" :
+                while (!Validator.validIcloud(email)) {
+                    System.out.println("Invalid email. Please enter valid email or Q for exit");
+                    email = scanner.nextLine();
+                }
+                break;
+            case "3" :
+                while (!Validator.validEmail(email)) {
+                    System.out.println("Invalid email. Please enter valid email or Q for exit");
+                    email = scanner.nextLine();
+                }
         }
         return email;
     }
@@ -237,10 +254,10 @@ public class Controller {
                 "\n2.Icloud" +
                 "\n3.Other" +
                 "\nQ.Exit from email type creating menu");
-        String emailType = scanner.nextLine();
+        String emailType = scanner.nextLine().toUpperCase();
         while (!Validator.validFirstMenu(emailType)) {
             System.out.println("Invalid email type. Please select valid.");
-            emailType = scanner.nextLine();
+            emailType = scanner.nextLine().toUpperCase();
         }
         return emailType;
     }
@@ -251,7 +268,7 @@ public class Controller {
      * else returning null
      */
     private String chooseEmailForDelete(Contact contact) {
-        System.out.println("Please enter phone number that you want to delete from contact");
+        System.out.println("Please enter email that you want to delete from contact");
         String deletingEmail = scanner.nextLine();
 
         while (!Validator.validEmail(deletingEmail)) {
@@ -275,11 +292,12 @@ public class Controller {
         if (companyName.equals("Q")) {
             return;
         }
-        service.addCompany(companyName, contact);
+        phoneNumberService.addCompany(companyName, contact);
     }
 
     /**
      * creating company name for contact
+     *
      * @return company name
      */
     private String createCompanyName() {
@@ -299,24 +317,61 @@ public class Controller {
         contact.setCompany(null);
     }
 
+
     /**
      * searching contact by name in contact list
      */
     public String searchByName() {
-        System.out.println("Input name of contact");
+        System.out.println("Input name or number of contact ");
         String name = scanner.nextLine();
-        if (!phoneBook.containsKey(name)) {
-            System.out.println("There is no contact with this name." +
-                    "\n1.Search again" +
-                    "\nQ.Exit");
-            String searchChoice = scanner.nextLine().toUpperCase();
-            while (!Validator.validSearchChoice(searchChoice)) {
-                System.out.println("Invalid choice. Enter valid choice.");
-                searchChoice = scanner.nextLine().toUpperCase();
+        if (Validator.validPhoneNumber(name)) {
+            return searchByNumber(name);
+        } else {
+            if (!PhoneBookService.phoneBook.containsKey(name)) {
+                System.out.println("There is no contact with this name." +
+                        "\n1.Search again" +
+                        "\nQ.Exit");
+                String searchChoice = scanner.nextLine().toUpperCase();
+                while (!Validator.validSearchChoice(searchChoice)) {
+                    System.out.println("Invalid choice. Enter valid choice.");
+                    searchChoice = scanner.nextLine().toUpperCase();
+                }
+                return searchChoice;
             }
-            return searchChoice;
+            return name;
         }
-        return name;
+
+    }
+
+    public String searchByNumber(String number) {
+//        System.out.println("Input number of contact");
+//        String number = scanner.nextLine();
+//        while (!Validator.validPhoneNumber(number)) {
+//            System.out.println("Invalid phone number. Enter valid number.");
+//            number = scanner.nextLine();
+//        }
+        int count = 0;
+        String temp = null;
+        for (String str : PhoneBookService.phoneBook.keySet()) {
+            for (int i = 0; i < PhoneBookService.phoneBook.get(str).numbers.size(); i++) {
+                if (number.equals(PhoneBookService.phoneBook.get(str).numbers.get(i).getPhoneNumber())) {
+                    if (count != 0) {
+                        ContactService.printContact(temp);
+                    }
+                    count++;
+                    temp = str;
+                    break;
+                }
+            }
+        }
+        if (count == 0) {
+            return "1";
+        }if (count == 1){
+            return temp;
+        }
+        ContactService.printContact(temp);
+        System.out.println("There are many contacts with same number, please search again by name.");
+        return "Q";
     }
 
     /**
