@@ -1,15 +1,11 @@
 package com.company.controller;
 
 import com.company.menu.Menu;
-import com.company.models.Contact;
-import com.company.models.Email;
-import com.company.models.PhoneNumber;
+import com.company.models.*;
 import com.company.service.*;
 import com.company.validators.Validator;
 
 import java.util.Scanner;
-import java.util.TreeMap;
-
 
 public class Controller {
     Scanner scanner = new Scanner(System.in);
@@ -27,7 +23,7 @@ public class Controller {
      * creating contact and returning it
      */
     public Contact createContact() {
-        System.out.println("Enter name of contact.");
+        System.out.println("Enter name of contact or press 'Q' for exit.");
         String name = scanner.nextLine();
 
         while (!Validator.validName(name)) {
@@ -35,20 +31,24 @@ public class Controller {
             name = scanner.nextLine();
         }
 
-        if (PhoneBookService.phoneBook.containsKey(name)) {
+        if (name.equalsIgnoreCase("Q")) {
+            return null;
+        }
+
+        if (PhoneBookService.phoneBook.containsKey(name.toLowerCase())) {
             System.out.println("You already have contact with this name. Choose operation" +
                     "\n1.Update exist contact" +
                     "\n2.Enter another name" +
                     "\nQ.Exit ");
 
-            String choice = scanner.nextLine().toUpperCase();
+            String choice = scanner.nextLine();
             while (!Validator.validExistContactMenu(choice)) {
                 System.out.println("Invalid choice. Please enter valid choice.");
-                choice = scanner.nextLine().toUpperCase();
+                choice = scanner.nextLine();
             }
             switch (choice) {
                 case "1":
-                    update(PhoneBookService.phoneBook.get(name));
+                    update(PhoneBookService.phoneBook.get(name.toLowerCase()));
                     break;
                 case "2":
                     return createContact();
@@ -83,17 +83,18 @@ public class Controller {
      * updating given contact
      */
     public void update(Contact contact) {
-        String choice = Menu.updateMenu();
+        String choice = Menu.updateMenu(contact);
         Contact temp = new Contact(contact);
 
         while (true) {
-            if (choice.equals("Q")) {
+            if (choice.equalsIgnoreCase("Q")) {
                 return;
             }
-            if (choice.equals("S")) {
-                PhoneBookService.phoneBook.put(contact.getName(), temp);
+            if (choice.equalsIgnoreCase("S")) {
+                PhoneBookService.phoneBook.put(contact.getName().toLowerCase(), temp);
                 return;
             }
+
             switch (choice) {
                 case "1":
                     addNumber(temp);
@@ -130,7 +131,7 @@ public class Controller {
                     System.out.println("Number successfully deleted");
                     break;
             }
-            choice = Menu.updateMenu();
+            choice = Menu.updateMenu(temp);
         }
     }
 
@@ -224,19 +225,19 @@ public class Controller {
         String email = scanner.nextLine();
 
         switch (emailType) {
-            case  "1" :
+            case "1":
                 while (!Validator.validGmail(email)) {
                     System.out.println("Invalid email. Please enter valid email or Q for exit.");
                     email = scanner.nextLine();
                 }
                 break;
-            case "2" :
+            case "2":
                 while (!Validator.validIcloud(email)) {
                     System.out.println("Invalid email. Please enter valid email or Q for exit");
                     email = scanner.nextLine();
                 }
                 break;
-            case "3" :
+            case "3":
                 while (!Validator.validEmail(email)) {
                     System.out.println("Invalid email. Please enter valid email or Q for exit");
                     email = scanner.nextLine();
@@ -317,39 +318,39 @@ public class Controller {
         contact.setCompany(null);
     }
 
-
     /**
      * searching contact by name in contact list
      */
     public String searchByName() {
         System.out.println("Input name or number of contact ");
-        String name = scanner.nextLine();
-        if (Validator.validPhoneNumber(name)) {
-            return searchByNumber(name);
+        String nameOrNumber = scanner.nextLine();
+        if (Validator.validPhoneNumber(nameOrNumber)) {
+            return searchByNumber(nameOrNumber);
         } else {
-            if (!PhoneBookService.phoneBook.containsKey(name)) {
+            if (!PhoneBookService.phoneBook.containsKey(nameOrNumber.toLowerCase())) {
                 System.out.println("There is no contact with this name." +
                         "\n1.Search again" +
                         "\nQ.Exit");
-                String searchChoice = scanner.nextLine().toUpperCase();
+                String searchChoice = scanner.nextLine();
                 while (!Validator.validSearchChoice(searchChoice)) {
                     System.out.println("Invalid choice. Enter valid choice.");
-                    searchChoice = scanner.nextLine().toUpperCase();
+                    searchChoice = scanner.nextLine();
                 }
                 return searchChoice;
             }
-            return name;
+            return nameOrNumber.toLowerCase();
         }
 
     }
 
+    /**
+     * searching contact by Contact number
+     *
+     * @param number
+     * @return key of contact or null if there are many contacts with same number
+     */
     public String searchByNumber(String number) {
-//        System.out.println("Input number of contact");
-//        String number = scanner.nextLine();
-//        while (!Validator.validPhoneNumber(number)) {
-//            System.out.println("Invalid phone number. Enter valid number.");
-//            number = scanner.nextLine();
-//        }
+
         int count = 0;
         String temp = null;
         for (String str : PhoneBookService.phoneBook.keySet()) {
@@ -365,8 +366,10 @@ public class Controller {
             }
         }
         if (count == 0) {
+            System.out.println("There are no contact with this number.");
             return "1";
-        }if (count == 1){
+        }
+        if (count == 1) {
             return temp;
         }
         ContactService.printContact(temp);

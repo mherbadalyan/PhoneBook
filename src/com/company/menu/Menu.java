@@ -2,8 +2,7 @@ package com.company.menu;
 
 import com.company.controller.Controller;
 import com.company.models.Contact;
-import com.company.service.ContactService;
-import com.company.service.PhoneBookService;
+import com.company.service.*;
 import com.company.validators.Validator;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ public class Menu {
         String inputFirstMenu = firstMenu();
 
         Contact contact;
-        while (!inputFirstMenu.equals("Q")) {
+        while (!inputFirstMenu.equalsIgnoreCase("Q")) {
             switch (inputFirstMenu) {
                 case "1":
                     contact = controller.createContact();
@@ -47,7 +46,7 @@ public class Menu {
                     while (contactName.equals("1")) {
                         contactName = controller.searchByName();
                     }
-                    if (!contactName.equals("Q")) {
+                    if (!contactName.equalsIgnoreCase("Q")) {
                         contactMenu(contactName);
                     }
                     break;
@@ -67,11 +66,11 @@ public class Menu {
                 "\n3.Search contact." +
                 "\nQ.For exit");
 
-        String inputFirstMenu = scanner.nextLine().toUpperCase();
+        String inputFirstMenu = scanner.nextLine();
 
         while (!Validator.validFirstMenu(inputFirstMenu)) {
             System.out.println("Invalid choice. Please enter again");
-            inputFirstMenu = scanner.nextLine().toUpperCase();
+            inputFirstMenu = scanner.nextLine();
         }
         return inputFirstMenu;
     }
@@ -87,11 +86,11 @@ public class Menu {
                 "\nS.Save contact and Exit" +
                 "\nQ.Exit without save.");
 
-        String operation = scanner.nextLine().toUpperCase();
+        String operation = scanner.nextLine();
 
         while (!Validator.createMenuValidator(operation)) {
             System.out.println("Invalid choice. Please enter valid choice.");
-            operation = scanner.nextLine().toUpperCase();
+            operation = scanner.nextLine();
         }
         return operation;
     }
@@ -110,14 +109,14 @@ public class Menu {
                     "\n3.Delete contact." +
                     "\nQ.Exit ");
 
-            operation = scanner.nextLine().toUpperCase();
+            operation = scanner.nextLine();
 
             while (!Validator.validFirstMenu(operation)) {
                 System.out.println("Invalid choice. Please enter valid choice.");
-                operation = scanner.nextLine().toUpperCase();
+                operation = scanner.nextLine();
             }
 
-            if (operation.equals("Q")) {
+            if (operation.equalsIgnoreCase("Q")) {
                 return;
             }
 
@@ -129,7 +128,7 @@ public class Menu {
                     controller.update(PhoneBookService.phoneBook.get(contactName));
                     break;
                 case "3":
-                    ContactService.deleteContact(PhoneBookService.phoneBook.get(contactName));
+                    ContactService.deleteContact(contactName);
                     return;
             }
         }
@@ -138,9 +137,10 @@ public class Menu {
     /**
      * printing contact update menu and returning choice of that actions
      */
-    public static String updateMenu() {
+    public static String updateMenu(Contact contact) {
         String choice;
 
+        System.out.println(contact);
         System.out.println("Please enter operation." +
                 "\n1.Add number" +
                 "\n2.Delete number" +
@@ -151,11 +151,11 @@ public class Menu {
                 "\nS.Save and exit" +
                 "\nQ.Exit without save");
 
-        choice = scanner.nextLine().toUpperCase();
+        choice = scanner.nextLine();
 
         while (!Validator.updateMenuValidator(choice)) {
             System.out.println("Invalid choice. Please enter again.");
-            choice = scanner.nextLine().toUpperCase();
+            choice = scanner.nextLine();
         }
         return choice;
     }

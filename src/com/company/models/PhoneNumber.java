@@ -2,7 +2,7 @@ package com.company.models;
 
 import java.io.Serializable;
 
-public  class PhoneNumber implements Serializable {
+public class PhoneNumber implements Serializable {
     private PhoneNumberType phoneNumberType;
     private String phoneNumber;
     private static final long serialVersionUID = 121489315643L;

@@ -1,4 +1,5 @@
 package com.company.validators;
+
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -6,18 +7,18 @@ public class Validator {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$");
     private static final Pattern GMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+(@gmail.com)+$");
     private static final Pattern ICLOUD_PATTERN = Pattern.compile("^[a-zA-Z0-9_.-]+(@icloud.com)+$");
-    private static final Pattern UPDATE_MENU_PATTERN = Pattern.compile("[1-6QS]");
+    private static final Pattern UPDATE_MENU_PATTERN = Pattern.compile("[1-6QSqs]");
 
     public static boolean validName(String name) {
-        return name != null;
+        return name != null && !name.equals("");
     }
 
     public static boolean validFirstMenu(String choose) {
-        return choose.equals("1") || choose.equals("2") || choose.equals("3") || choose.equals("Q");
+        return choose.equals("1") || choose.equals("2") || choose.equals("3") || choose.equalsIgnoreCase("Q");
     }
 
     public static boolean createMenuValidator(String choose) {
-        return validFirstMenu(choose) || choose.equals("S");
+        return validFirstMenu(choose) || choose.equalsIgnoreCase("S");
     }
 
     public static boolean validPhoneNumber(String number) {
@@ -30,9 +31,11 @@ public class Validator {
     public static boolean validEmail(String email) {
         return email.equalsIgnoreCase("Q") || email.matches(EMAIL_PATTERN.pattern());
     }
+
     public static boolean validGmail(String email) {
         return email.equalsIgnoreCase("Q") || email.matches(GMAIL_PATTERN.pattern());
     }
+
     public static boolean validIcloud(String email) {
         return email.equalsIgnoreCase("Q") || email.matches(ICLOUD_PATTERN.pattern());
     }
@@ -42,7 +45,7 @@ public class Validator {
     }
 
     public static boolean validSearchChoice(String searchChoice) {
-        return searchChoice.equals("1") || searchChoice.equals("Q");
+        return searchChoice.equals("1") || searchChoice.equalsIgnoreCase("Q");
     }
 
     public static boolean validExistContactMenu(String choice) {

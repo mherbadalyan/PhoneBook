@@ -1,4 +1,5 @@
 package com.company.models;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -6,8 +7,8 @@ import java.util.Objects;
 public class Contact implements Serializable {
     private String name;
     private String company;
-    public ArrayList<PhoneNumber> numbers ;
-    public ArrayList<Email> emails ;
+    public ArrayList<PhoneNumber> numbers;
+    public ArrayList<Email> emails;
     private static final long serialVersionUID = 121231315643L;
 
     public Contact(String name) {

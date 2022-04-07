@@ -54,6 +54,4 @@ public class PhoneNumberService {
     public void addCompany(String companyName, Contact contact) {
         contact.setCompany(companyName);
     }
-
-
 }

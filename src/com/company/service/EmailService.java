@@ -1,8 +1,6 @@
 package com.company.service;
 
-import com.company.models.Contact;
-import com.company.models.Email;
-import com.company.models.EmailType;
+import com.company.models.*;
 
 public class EmailService {
 
